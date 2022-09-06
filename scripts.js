@@ -207,13 +207,25 @@ class Car{
 }
 
 const BMW = new Car('Ford', 120);
+const Mercede = new Car('Mercede', 120 * 1.6);
+const Volvo = new Car('Volvo', 120 / 1.6);
 
 
+
+// 1
 BMW.accelerate();  
 BMW.accelerate();
 BMW.accelerate();
 BMW.brake();
 BMW.brake();
 // ++++++++++++++++++++++
-
+// 2
+Mercede.accelerate();
+Mercede.accelerate();
+// 3
+Volvo.accelerate();
+Volvo.accelerate();
+Volvo.accelerate();
+Volvo.brake();
+Volvo.brake();
 
