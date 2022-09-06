@@ -100,12 +100,12 @@
 // // classs expression
 // // const PersonCl = class{}
 
-// // class declaration
-// class PersonCl {
-//   constructor(fullName, birthYear){
-//   this.fullName = fullName;
-//   this.birthYear = birthYear;
-//   }
+// class declaration
+//   class PersonCl {
+  //   constructor(fullName, birthYear){
+  //   this.fullName = fullName;
+  //   this.birthYear = birthYear;
+  //   }
 
 //   // Method will be added to the .prototype property
 //   calcAge(){
@@ -150,7 +150,7 @@
 
 // const accounts = {
 //   owner:'jonas',
-//   movement: [200,530, 120, 900],
+//   movement: [200, 530, 120, 900],
 
 //   get lastest(){
 //    return this.movement.slice(-1).pop();
@@ -164,25 +164,56 @@
 // accounts.lastest = 50;
 // console.log(accounts.movement)
 
-// ==Object.create==
-const PersonProto = {
-  calcAge(){
-    console.log(2037 - this.birthYear);
-  },
-  init(firstName, birthYear){
-    this.firstName = firstName;
-    this.birthYear = birthYear;
+// // ==Object.create==
+// const PersonProto = {
+//   calcAge(){
+//     console.log(2037 - this.birthYear);
+//   },
+//   init(firstName, birthYear){
+//     this.firstName = firstName;
+//     this.birthYear = birthYear;
+//   }
+// };
+
+// const steven = Object.create(PersonProto);
+// console.log(steven);
+// steven.name = 'mark';
+// steven.birthYear = 2002;
+// steven.calcAge();
+
+// console.log(steven.__proto__ === PersonProto);
+
+// const sarah = Object.create(PersonProto);
+// sarah.init('sarah', 1979);
+// sarah.calcAge();
+
+
+
+// coding challenge #2
+
+class Car{
+  constructor(make, speed){
+    this.make = make;
+    this.speed = speed;
   }
-};
+  accelerate(){
+    this.speed += 10;
+    console.log(`${this.make} is going at ${this.speed}km/hr`);
+  }
+  brake(){
+    this.speed -= 5;
+    console.log(`${this.make} is reducing at ${this.speed}km/hr`);
+  }
+}
 
-const steven = Object.create(PersonProto);
-console.log(steven);
-steven.name = 'mark';
-steven.birthYear = 2002;
-steven.calcAge();
+const BMW = new Car('Ford', 120);
 
-console.log(steven.__proto__ === PersonProto);
 
-const sarah = Object.create(PersonProto);
-sarah.init('sarah', 1979);
-sarah.calcAge();
+BMW.accelerate();  
+BMW.accelerate();
+BMW.accelerate();
+BMW.brake();
+BMW.brake();
+// ++++++++++++++++++++++
+
+

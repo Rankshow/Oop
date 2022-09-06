@@ -9,6 +9,6 @@
  *Polymorphism
 
 #Three ways of implementing prototypal inheritance  in Jvascript are;
- [x]Constructor function.
- [x]Es6 classes.
- [x]Object.create.
+ [x] Constructor function.
+ [x] Es6 classes.
+ [x] Object.create.
