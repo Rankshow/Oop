@@ -196,36 +196,41 @@ class Car{
     this.make = make;
     this.speed = speed;
   }
+  // Increase the speed of the car by 10.
   accelerate(){
     this.speed += 10;
     console.log(`${this.make} is going at ${this.speed}km/hr`);
   }
+  // Reduce the speed of the car by -5
   brake(){
     this.speed -= 5;
     console.log(`${this.make} is reducing at ${this.speed}km/hr`);
   }
+  // this dive the speed.
+  get speedUs(){
+     return this.speed / 1.6;
+  }
+   set speedUs(speed){
+    this.speed = speed * 1.6;
+   }
 }
-
-const BMW = new Car('Ford', 120);
-const Mercede = new Car('Mercede', 120 * 1.6);
-const Volvo = new Car('Volvo', 120 / 1.6);
+const ford = new Car('Ford', 120);
 
 
+// 1 The function increase the speed of the car.
+ford.accelerate();  
+ford.accelerate();
+ford.accelerate();
 
-// 1
-BMW.accelerate();  
-BMW.accelerate();
-BMW.accelerate();
-BMW.brake();
-BMW.brake();
-// ++++++++++++++++++++++
-// 2
-Mercede.accelerate();
-Mercede.accelerate();
-// 3
-Volvo.accelerate();
-Volvo.accelerate();
-Volvo.accelerate();
-Volvo.brake();
-Volvo.brake();
+// This reduce the speed of the car 
+ford.brake();
+ford.brake();
+
+// get speedUS
+console.log(ford.speedUs)
+
+// set speedUs
+ford.speedUs = 50;
+console.log(ford);
+
 
