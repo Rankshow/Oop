@@ -191,46 +191,120 @@
 
 // coding challenge #2
 
-class Car{
-  constructor(make, speed){
+// class Car{
+//   constructor(make, speed){
+//     this.make = make;
+//     this.speed = speed;
+//   }
+//   // Increase the speed of the car by 10.
+//   accelerate(){
+//     this.speed += 10;
+//     console.log(`${this.make} is going at ${this.speed}km/hr`);
+//   }
+//   // Reduce the speed of the car by -5
+//   brake(){
+//     this.speed -= 5;
+//     console.log(`${this.make} is reducing at ${this.speed}km/hr`);
+//   }
+//   // this dive the speed.
+//   get speedUs(){
+//      return this.speed / 1.6;
+//   }
+//    set speedUs(speed){
+//     this.speed = speed * 1.6;
+//    }
+// }
+// const ford = new Car('Ford', 120);
+
+
+// // 1 The function increase the speed of the car.
+// ford.accelerate();  
+// ford.accelerate();
+// ford.accelerate();
+
+// // This reduce the speed of the car 
+// ford.brake();
+// ford.brake();
+
+// // get speedUS
+// console.log(ford.speedUs)
+
+// // set speedUs
+// ford.speedUs = 50;
+// console.log(ford);
+
+// Inheritance btw "classes" : Constructor functions
+
+// const Person = function(fullName, birthYear){
+//   this.fullName = fullName;
+//   this.birthYear = birthYear;
+// }
+// Person.prototype.calcAge = function () {
+//   console.log(2037 - this.birthYear);
+// };
+// // +++++++++++++
+// const Student = function (firstName,birthYear,course){
+//   Person.call(this, firstName, birthYear);
+//   // this.firstName = firstName;
+//   // this.birthYear = birthYear;
+//   this.course = course;
+// }
+
+// // Linking prototype
+// Student.prototype = Object.create(Person.prototype);
+
+
+// Student.prototype.introduce = function() {
+//   console.log(`My name is ${this.firstName} and i study ${this.course}`);
+// }
+// const mike = new Student('Mike', 2020, 'computer science');
+// console.log(mike)
+
+// console.log(mike instanceof Student);
+// console.log(mike instanceof Person)
+// mike.introduce();
+// mike.calcAge();
+// console.log(mike.__proto__)
+// Student.prototype.constructor = Student;
+
+//  coding challenge#3
+const Car = function (make, speed){
     this.make = make;
     this.speed = speed;
-  }
-  // Increase the speed of the car by 10.
-  accelerate(){
+  };
+  
+  Car.prototype.accelerate = function() {
     this.speed += 10;
-    console.log(`${this.make} is going at ${this.speed}km/hr`);
+    console.log(`${this. make} is going at ${this.speed} km/m`);
   }
-  // Reduce the speed of the car by -5
-  brake(){
+  
+  Car.prototype.brake = function() {
     this.speed -= 5;
-    console.log(`${this.make} is reducing at ${this.speed}km/hr`);
+    console.log(`${this. make} is going at ${this.speed} km/m`);
+  };
+
+  // The "EV" is the child class of the "Car" parent.
+  const Ev = function (make, speed, charge){
+    Car.call(this, make, speed);
+    this.charge = charge;
   }
-  // this dive the speed.
-  get speedUs(){
-     return this.speed / 1.6;
+
+  // Linking the prototype (the prototype of Ev inherit the prototype of the Car)
+  Ev.prototype = Object.create(Car.prototype);
+
+  Ev.prototype.chargeBattery = function(chargeTo){
+    this.chargeTo = chargeTo;
+  };
+  
+  Ev.prototype.accelerate = function() {
+    this.speed += 20;
+    this.charge--;
+    console.log(`${this.make} is going at ${this.speed} Km/h, with a charge of ${this.charge}`)
   }
-   set speedUs(speed){
-    this.speed = speed * 1.6;
-   }
-}
-const ford = new Car('Ford', 120);
+ 
+  const tesla = new Ev('Tesla', 120, 20);
+  tesla.chargeBattery(90);
+  console.log(tesla);
 
-
-// 1 The function increase the speed of the car.
-ford.accelerate();  
-ford.accelerate();
-ford.accelerate();
-
-// This reduce the speed of the car 
-ford.brake();
-ford.brake();
-
-// get speedUS
-console.log(ford.speedUs)
-
-// set speedUs
-ford.speedUs = 50;
-console.log(ford);
-
-
+  tesla.brake()
+  tesla.accelerate();
