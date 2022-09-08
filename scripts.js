@@ -242,30 +242,33 @@
 // Person.prototype.calcAge = function () {
 //   console.log(2037 - this.birthYear);
 // };
-// // +++++++++++++
-// const Student = function (firstName,birthYear,course){
-//   Person.call(this, firstName, birthYear);
-//   // this.firstName = firstName;
-//   // this.birthYear = birthYear;
-//   this.course = course;
-// }
 
-// // Linking prototype
-// Student.prototype = Object.create(Person.prototype);
+// // +++++++++++++================================================
+
+const Student = function (firstName,birthYear,course){
+  // Persin.call is use for adding this keyword.
+  Person.call(this, firstName, birthYear);
+  // this.firstName = firstName;
+  // this.birthYear = birthYear;
+  this.course = course;
+}
+
+// Linking prototype
+Student.prototype = Object.create(Person.prototype);
 
 
-// Student.prototype.introduce = function() {
-//   console.log(`My name is ${this.firstName} and i study ${this.course}`);
-// }
-// const mike = new Student('Mike', 2020, 'computer science');
-// console.log(mike)
+Student.prototype.introduce = function() {
+  console.log(`My name is ${this.firstName} and i study ${this.course}`);
+}
+const mike = new Student('Mike', 2020, 'computer science');
+console.log(mike)
 
-// console.log(mike instanceof Student);
-// console.log(mike instanceof Person)
-// mike.introduce();
-// mike.calcAge();
-// console.log(mike.__proto__)
-// Student.prototype.constructor = Student;
+console.log(mike instanceof Student);
+console.log(mike instanceof Person)
+mike.introduce();
+mike.calcAge();
+console.log(mike.__proto__)
+Student.prototype.constructor = Student;
 
 //  coding challenge#3
 const Car = function (make, speed){
@@ -308,3 +311,223 @@ const Car = function (make, speed){
 
   tesla.brake()
   tesla.accelerate();
+
+// =================================================================
+// ===== Inheritance btw "classes" Es6 classes ========================
+class PersonCl {
+    constructor(fullName, birthYear){
+    this.fullName = fullName;
+    this.birthYear = birthYear;
+    }
+
+  // Method will be added to the .prototype property
+  calcAge(){
+    console.log(2037 - this.birthYear);
+  }
+  greet(){
+    console.log(`hey ${this.fullName}`);
+  }
+  get age(){
+    return 2037 - this.birthYear;
+  }
+  set fullName(name){
+    if(name.includes('')) this._fullName = name;
+    else alert(`${name} is not a full name`);
+  }
+  get fullName(){
+    return this._fullName;
+  }
+  static hey(){
+    console.log('Hey guy')
+  }
+}
+
+class StudentCl extends PersonCl {
+  constructor(fullName, birthYear, course){
+    // Always need to happen first! (because the super is resposible for calling this keyword)
+    super(fullName, birthYear, course);
+    this.course = course;
+  }
+  introduce(){
+    console.log(`My name is ${this.fullName} and i study ${this.course}`);
+  }
+  calcAge(){
+     console.log(`i'm ${2037 - this.birthYear} years old but as a student i feel more like ${2037 - this.birthYear + 10}`)
+  }
+}
+
+const martha = new StudentCl ('Martha', 2012, 'Computer Science');
+martha.introduce();
+martha.calcAge();
+martha.greet()
+
+// ======================================================================
+// inheritance between "classes" : Object.create
+
+const PersonProto = {
+  calcAge(){
+    console.log(2037 - this.birthYear);
+  },
+  init(firstName, birthYear){
+    this.firstName = firstName;
+    this.birthYear = birthYear;
+  },
+};
+
+const steven = Object.create(PersonProto);
+
+const StudentProto = Object.create(PersonProto);
+
+
+StudentProto.init = function(firstName, birthYear, course){
+  PersonProto.init.call(this, firstName, birthYear);
+  this.course = course;
+}
+
+StudentProto.introduce = function(){
+  console.log(`My name is ${this.firstName} and i studied ${this.course}`);
+}
+
+const jay = Object.create(StudentProto);
+jay.init('Jay', 2010, 'Computer science');
+jay.introduce();
+jay.calcAge();
+
+// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+// Examples of classes
+class Account {
+  //1.) public fields (instances)
+  locale = navigator.language;
+  
+  //2) Private fields (instances)
+  #movement = [];
+  #pin;
+  
+
+  constructor(owner, currency, pin){
+    this.owner = owner;
+    this.currency = currency;
+    // protected property
+    this.#pin = pin;
+    // this._movement = [];
+    // this.locale = navigator.language;
+
+    console.log(`thanks for opening an account, ${owner}`);
+  }
+  getMovement() {
+    return this.#movement;
+  }
+  // 3)Method public
+  // Public interface
+  deposit(val){
+    this.#movement.push(val);
+    return this;
+  }
+  withdraw(val){
+    this.deposit(-val);
+    return this;
+  }
+  requestLoan(val){
+    if(this.approveLoan()){
+      this.deposit(val);
+      console.log(`loan approved`);
+      return this;
+    }
+  }
+    static helper(){
+      console.log('Helper')
+    }
+  //4) private methods
+  approveLoan(val) {
+    return true;
+  }
+}
+
+
+
+const acct1 = new Account('jonas', 'EUR', 1111);
+acct1.deposit(240);
+acct1.withdraw(-140);
+acct1.requestLoan(1000);
+
+console.log(acct1.pin)
+console.log(acct1);
+
+Account.helper();
+// console.log(acct1.#approveLoan(1000))
+
+// chaining
+acct1.deposit(300).deposit(500).withdraw(35).requestLoan(25000).withdraw(4000);
+console.log(acct1.getMovement());
+
+// ===Coding challenge=======================================================
+// Using Es6 classes to attempt the same question
+
+class CarCl{
+  constructor(make, speed){
+    this.make = make;
+    this.speed = speed;
+  }
+  // Increase the speed of the car by 10.
+  accelerate(){
+    this.speed += 10;
+    console.log(`${this.make} is going at ${this.speed}km/hr`);
+  }
+  // Reduce the speed of the car by -5
+  brake(){
+    this.speed -= 5;
+    console.log(`${this.make} is reducing at ${this.speed}km/hr`);
+    return this;
+  }
+  // this diving the speed by 1.6
+  get speedUs(){
+     return this.speed / 1.6;
+  }
+  // mutiplying the speed by 1.6
+   set speedUs(speed){
+    this.speed = speed * 1.6;
+   }
+ }
+
+ class EvCl extends CarCl{
+  // making the charge private.
+  #charge;
+
+ constructor(make, speed, charge){
+   super(make, speed);
+    this.#charge = charge;
+  }
+  
+  chargeBattery(chargeTo){
+        this.#charge = chargeTo;
+        // return this helps us for chaining the methods at line 517 - 521
+        return this;
+      };
+
+  accelerate(){
+  this.speed += 10;
+  this.#charge--;
+  console.log(`${this.make} is going at ${this.speed}km/hr, at the charge of ${this.#charge}`);
+  // Also helps for for multiple cahining.
+  return this;
+}
+}
+
+const rivian = new EvCl('Rivian', 120, 23)
+console.log(rivian);
+rivian.accelerate()
+.accelerate()
+.accelerate()
+.brake()
+.chargeBattery(50).accelerate();
+
+console.log(rivian.speedUs);
+
+
+
+
+
+
+ 
+
